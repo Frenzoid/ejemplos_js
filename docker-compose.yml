@@ -1,0 +1,73 @@
+# Author: MrFrenzoid (https://frenzoid.dev)
+# License: MIT
+# Description: Este docker compose arrancará 4 contenedores:
+# - Un servidor de base de datos PostgreSQL en el puerto 5432
+# - Un servidor web adminer que nos permitirá administrar la base de datos desde el puerto 8080
+# - Un servidor de zookeeper en el puerto 2181
+# - Un servidor de kafka en el puerto 9092
+
+# Para arrancar el docker compose, ejecutar el siguiente comando: docker compose up ( en versiones anteriores a 1.27.0, ejecutar: docker-compose up)
+# Para detener el docker compose,  ejecutar el siguiente comando: docker compose down ( en versiones anteriores a 1.27.0, ejecutar: docker-compose down)
+
+# Version del YML.
+version: "3"
+
+# Servicios que se van a ejecutar.
+services:
+
+  # Servicio de la base de datos.
+  # https://hub.docker.com/_/postgres
+  postgres:
+    image: postgres
+    container_name: 'postgres'
+    restart: always
+    environment:
+
+      # Credenciales de la base de datos.
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+
+      # Nombre de la base de datos.
+      POSTGRES_DB: SD
+    ports:
+      - 5432:5432
+
+  # Servicio de la interfaz web ( aplicación web que nos permite interactuar con la base de datos ).
+  # https://hub.docker.com/_/adminer
+  adminer:
+    image: adminer
+    container_name: 'adminer'
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+
+  # Servicio del zookeeper.
+  # https://hub.docker.com/r/bitnami/zookeeper
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    container_name: 'zookeeeper'
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  # Servicio del kafka.
+  # https://hub.docker.com/r/bitnami/kafka
+  kafka:
+    image: 'bitnami/kafka:latest'
+    container_name: 'kafka'
+    ports:
+      - '9092:9092'
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_LISTENERS=PLAINTEXT://:9092
+
+      # Reemplazar "localhost" por la IP de tu máquina.
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - KAFKA_ZOOKEEPER_CONNECT=localhost:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+    depends_on:
+      - zookeeper

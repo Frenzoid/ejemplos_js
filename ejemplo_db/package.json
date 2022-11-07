@@ -1,0 +1,17 @@
+{
+  "name": "ejemplo_db",
+  "version": "1.0.0",
+  "description": "Para arrancar el siguiente ejemplo es necesario tener instalado node y npm.\r Para instalarlos en ubuntu se puede hacer con el siguiente comando:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pg": "^8.8.0",
+    "pg-hstore": "^2.3.4",
+    "read-console": "^1.0.3",
+    "sequelize": "^6.25.4"
+  }
+}

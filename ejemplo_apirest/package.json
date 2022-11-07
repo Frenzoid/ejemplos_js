@@ -1,0 +1,14 @@
+{
+  "name": "ejemplo_apirest",
+  "version": "1.0.0",
+  "description": "Para arrancar el siguiente ejemplo es necesario tener instalado node y npm.\r Para instalarlos en ubuntu se puede hacer con el siguiente comando:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
