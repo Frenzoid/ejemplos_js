@@ -23,7 +23,7 @@ En la segunda se ejecuta el cliente:
 
 ## Explicación.
 
-Kafka es un sistema de encolado que funciona como una arquitectura productor consumidor, en la que los productores envian mensajes a un topico y los consumidores los reciben de ese topico. Kafka soporta una barbaridad de opciones, pero podemos usarlo como gestor de mensajes encolados.
+Kafka es una plataforma distribuida de gestion de eventos via streaming, pero tambien puede actuar como un productor / consumidor clasico, en la que los productores envian mensajes a un topico y los consumidores los reciben de ese topico. Kafka soporta una barbaridad de opciones, pero podemos usarlo como gestor de mensajes encolados.
 
 ## Referencias.
 
