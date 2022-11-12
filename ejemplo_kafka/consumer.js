@@ -11,9 +11,13 @@ const kafka = require('kafka-node');
  * 
  * kafka.KafkaClient(options));
  * 
+ * En este caso, el objeto options contiene 2 propiedades:
+ * - kafkaHost: La dirección del servidor kafka.
+ * - autoConnect: Si queremos que se conecte automaticamente al servidor kafka.
+ * 
  * https://npmjs.com/package/kafka-node#kafkaclient
  * */
-const client = new kafka.KafkaClient({ kafkaHost: 'oldbox.cloud:9092', autoConnect: true });
+const client = new kafka.KafkaClient({ kafkaHost: 'localhost:9092', autoConnect: true });
 
 
 /**

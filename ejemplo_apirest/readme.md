@@ -15,6 +15,10 @@ Y despues en una terminal:
 
     node server.js
 
+Y en otra terminal, una vez arrancado el servidor:
+
+    node client.js
+
 ## Explicación.
 En este ejemplo se muestra como crear una api rest con express. Para ello se crea un servidor que escucha en el puerto 3000 y que tiene dos rutas:
 
@@ -30,6 +34,8 @@ En este ejemplo se muestra como crear una api rest con express. Para ello se cre
 - La ruta GET /usuarios/:id devuelve un usuario concreto.
 - La ruta POST /usuarios crea un usuario y la ruta PUT /usuarios/:id actualiza un usuario existente.
 - La ruta DELETE /usuarios/:id elimina un usuario existente.
+
+Tambien enseña a usar la libreria Axios para hacer peticiones http desde JS.
 
 ## Referencias.
 

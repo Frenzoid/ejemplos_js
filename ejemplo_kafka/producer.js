@@ -13,10 +13,13 @@ const reader = require("read-console");
  * crear consumidores, productores, crear topicos, borrarlos, etc... ).
  * 
  * kafka.KafkaClient(options));
+ * En este caso, el objeto options contiene 1 propiedad:
+ * - kafkaHost: La dirección del servidor kafka.
+ * 
  * 
  * https://npmjs.com/package/kafka-node#kafkaclient
  * */
-const client = new kafka.KafkaClient({ kafkaHost: 'oldbox.cloud:9092' });
+const client = new kafka.KafkaClient({ kafkaHost: 'localhost:9092' });
 
 /**
  * Creamos un productor.

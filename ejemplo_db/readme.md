@@ -11,10 +11,21 @@ Primero hay que instalar las dependencias del proyecto con el siguiente comando 
 
     npm i
 
+### Ejemplo 1.
 
-Y despues en una terminal:
+Para ejecutar el ejemplo 1 se debe ejecutar el siguiente comando:
 
     node db.js
+
+Este progama te enseña a como definir una tabla DETALLADAMENTE, y como pedir por consola sincronamente y insertar los datos en la base de datos, además de capturar errores, y definir restricciones propias en la propia base de datos.
+
+### Ejemplo 2.
+
+Para ejecutar el ejemplo 2 se debe ejecutar el siguiente comando:
+
+    node db_sentencias.js
+
+Este programa te enseña a definir una table sencilla, y como crear, buscar, filtrar, eliminar, modificar un registro en la base de datos.
 
 ## Explicación.
 
