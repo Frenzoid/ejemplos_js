@@ -18,26 +18,40 @@ const express = require("express");
 const app = express();
 
 /**
+ * Habilitamos CORS
+ */
+const cors = require('cors')
+
+/**
  * Configuramos el body parser, esta configuracion nos permite leer el body de las peticiones ( POST, PUT, PATCH ).
- * 
+ * Configuramos CORS para permitir el acceso desde el mismo dominio.
  * https://expressjs.com/es/api.html#express.json
  *  */
 app.use(express.json());
+app.use(cors())
 
 
 // Array de usuarios.
-const users = [
+let users = [
   {
     name: "Frenzoid",
     age: 21,
+    id: 0,
   },
   {
     name: "Pepito",
     age: 22,
+    id: 1,
   },
   {
     name: "Juanito",
     age: 23,
+    id: 2,
+  },
+  {
+    name: "Pedrito",
+    age: 23,
+    id: 3,
   },
 ];
 
@@ -78,7 +92,7 @@ app.get("/users/:id", (req, res) => {
  * */
 app.post("/users", (req, res) => {
   users.push(req.body);
-  res.send("Usuario creado");
+  res.send(users[users.length - 1]);
 });
 
 /**
@@ -87,7 +101,7 @@ app.post("/users", (req, res) => {
 app.put("/users/:id", (req, res) => {
   const id = req.params.id;
   users[id] = req.body;
-  res.send("Usuario actualizado");
+  res.send(users[id]);
 });
 
 /**
@@ -95,8 +109,8 @@ app.put("/users/:id", (req, res) => {
  */
 app.delete("/users/:id", (req, res) => {
   const id = req.params.id;
-  users.splice(id, 1);
-  res.send("Usuario eliminado");
+  users = users.filter((user) => user.id != id);
+  res.send(users);
 });
 
 
