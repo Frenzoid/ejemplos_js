@@ -38,6 +38,11 @@
   </div>
 
   {#if $users.length === 0}
-    <p>No hay personas :c</p>
+    <p>
+      No hay personas :c Has arrancado el servidor APIRest? <a
+        href="https://github.com/Frenzoid/ejemplos_js/tree/master/ejemplo_apirest"
+        >./ejemplo_apirest/server.js</a
+      >
+    </p>
   {/if}
 </main>
