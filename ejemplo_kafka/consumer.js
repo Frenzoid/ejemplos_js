@@ -1,6 +1,16 @@
 /**
  * Author: @Frenzoid
  */
+// Nos traemos el modulo aes256 para encriptar y desencriptar mensajes.
+const aes256 = require('aes256');
+
+// Clave para encriptar y desencriptar mensajes. Esta clave debe ser la misma en el productor y el consumidor.
+/***
+ * aes256.encrypt(claveCompartida, mensaje) => mensajeEncriptado -> Encripta el mensaje con la claveCompartida.
+ * aes256.decrypt(claveCompartida, mensaje) => mensajeDesencriptado -> Desencripta el mensaje con la claveCompartida.
+ */
+const claveCompartida = "claveCompartida";
+
 // Nos traemos el modulo de kafka-node para interacturar con un servidor kafka desde node.
 const kafka = require('kafka-node');
 
@@ -17,7 +27,7 @@ const kafka = require('kafka-node');
  * 
  * https://npmjs.com/package/kafka-node#kafkaclient
  * */
-const client = new kafka.KafkaClient({ kafkaHost: 'localhost:9092', autoConnect: true });
+const client = new kafka.KafkaClient({ kafkaHost: 'oldbox.cloud:9092', autoConnect: true });
 
 
 /**
@@ -40,6 +50,12 @@ client.createTopics(["topicoPrueba", "topicoPrueba2"], (err, data) => {
  * Eje: const consumer = new kafka.Consumer(client, [{ topic: "topicoPrueba" }], { autoCommit: false });
  * 
  * https://www.npmjs.com/package/kafka-node#consumer
+ * 
+ * 
+ * NO SE PUEDEN TENER MÁS DE 2 CONSUMIDORES CON EL MISMO CLIENTE, SI QUIERES TENER 2, CREA OTRO client, y crea el consumidor desde ese client.
+ * 
+ * const client2 = new kafka.KafkaClient({ kafkaHost: 'oldbox:9092', autoConnect: true });
+ * const consumer2 = new kafka.Consumer(client2, [{ topic: "topicoPrueba" }]);
  * */
 const consumer = new kafka.Consumer(client, [{ topic: "topicoPrueba" }]);
 
@@ -52,6 +68,9 @@ consumer.on('message', (message) => {
    * 
    * Eje: console.log("Nuevo mensaje consumido:", JSON.parse(message.value));
    *  */
+
+  // Desencriptamos el mensaje recibido.
+  message.value = aes256.decrypt(claveCompartida, message.value);
   console.log("Nuevo mensaje consumido:", message.value);
 });
 

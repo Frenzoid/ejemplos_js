@@ -7,6 +7,16 @@ const kafka = require('kafka-node');
 // Nos traemos el modulo de readline para leer desde la terminal.
 const reader = require("read-console");
 
+// Nos traemos el modulo aes256 para encriptar y desencriptar mensajes.
+const aes256 = require('aes256');
+
+// Clave para encriptar y desencriptar mensajes. Esta clave debe ser la misma en el productor y el consumidor.
+/***
+ * aes256.encrypt(claveCompartida, mensaje) => mensajeEncriptado -> Encripta el mensaje con la claveCompartida.
+ * aes256.decrypt(claveCompartida, mensaje) => mensajeDesencriptado -> Desencripta el mensaje con la claveCompartida.
+ */
+const claveCompartida = "claveCompartida";
+
 /**
  * Creamos un cliente de kafka ( conexion con el servidor de kafka, 
  * con este objeto "client" podemos gestionar nuestro servidor de kafka,
@@ -19,7 +29,7 @@ const reader = require("read-console");
  * 
  * https://npmjs.com/package/kafka-node#kafkaclient
  * */
-const client = new kafka.KafkaClient({ kafkaHost: 'localhost:9092' });
+const client = new kafka.KafkaClient({ kafkaHost: 'oldbox.cloud:9092' });
 
 /**
  * Creamos un productor.
@@ -66,6 +76,10 @@ producer.on('error', (err) => { console.log(err) })
 
 function emiteMensaje() {
   reader.read("Mensaje: ", mensaje => {
+
+    // Encriptamos el mensaje.
+    mensaje = aes256.encrypt(claveCompartida, mensaje);
+    console.log("Mensaje encriptado:", mensaje)
 
     // Cambiamos el mensaje del payload.
     /**

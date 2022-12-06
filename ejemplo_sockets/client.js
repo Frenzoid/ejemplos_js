@@ -8,11 +8,11 @@ const { io } = require("socket.io-client");
 const reader = require("read-console");
 
 // Creamos una conexion con el servidor de sockets en el puerto 9000.
+// Si has generado los certificados, y usas el servidor https (server_https.js), cambia "http" por "https".
 const socket = io("http://localhost:9000");
 
 // contandor de reintentos.
 let intentos = 0;
-
 
 // Con nuestro socket (cliente) podemos definir ciertos eventos a manejar entre cliente y servidor.
 // Con socket.on("nombre_event", (dato) => {}}) definimos un evento de recepcion (servidor->cliente)

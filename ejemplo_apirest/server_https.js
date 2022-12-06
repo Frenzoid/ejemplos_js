@@ -4,6 +4,20 @@
  */
 
 /***
+ * Importamos https, libreria para crear un servidor https.
+ * 
+ * https://nodejs.org/api/https.html
+ */
+const https = require("https");
+
+/***
+ * Importamos fs, libreria para leer archivos del sistema.
+ * 
+ * https://nodejs.org/api/fs.html
+ */
+const fs = require("fs");
+
+/***
  *  Importamos express, libreria para crear un servidor web.
  * 
  *  https://expressjs.com/es/starter/hello-world.html
@@ -19,10 +33,8 @@ const app = express();
 
 /**
  * Importamos CORS, libreria para permitir el acceso desde el mismo dominio.
- * 
- * https://www.npmjs.com/package/cors
  */
-const cors = require('cors')
+const cors = require('cors');
 
 /**
  * Configuramos el body parser, esta configuracion nos permite leer el body de las peticiones ( POST, PUT, PATCH ).
@@ -30,8 +42,24 @@ const cors = require('cors')
  * https://expressjs.com/es/api.html#express.json
  *  */
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 
+/***
+ * Creamos las opciones para el servidor https
+ * 
+ * https://nodejs.org/api/https.html#https_https_createserver_options_requestlistener
+ */
+const options = {
+  key: fs.readFileSync("certificados/key.pem"),
+  cert: fs.readFileSync("certificados/cert.pem"),
+};
+
+/***
+ * Creamos el servidor https, y le pasamos las opciones y la instancia de express, para que express maneje este servidor con certificados.
+ * 
+ * https://nodejs.org/api/https.html#https_https_createserver_options_requestlistener
+ */
+const server = https.createServer(options, app);
 
 // Array de usuarios.
 let users = [
@@ -91,7 +119,6 @@ app.get("/users/:id", (req, res) => {
   res.send(users[id]);
 });
 
-
 /**
  * POST /users
  * */
@@ -105,7 +132,7 @@ app.post("/users", (req, res) => {
  * */
 app.put("/users/:id", (req, res) => {
   const id = req.params.id;
-  users[id] = { ...users[id], ...req.body };
+  users[id] = { ...users[id], ...req.body }; // Actualizamos el usuario, reemplazamos solo los campos que nos llegan en el body.
   res.send(users[id]);
 });
 
@@ -120,10 +147,10 @@ app.delete("/users/:id", (req, res) => {
 
 
 /**
- * Iniciamos el servidor, escuchando en el puerto 3000.
+ * Iniciamos el servidor (https), escuchando en el puerto 3000.
  * 
  * https://expressjs.com/es/starter/hello-world.html
  * */
-app.listen(3000, () => {
-  console.log("Servidor iniciado en el puerto 3000");
+server.listen(3000, () => {
+  console.log("Servidor https iniciado en el puerto 3000");
 });

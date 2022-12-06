@@ -1,6 +1,12 @@
 /**
  * Author: @Frenzoid
  */
+
+// Importamos md5, un algoritmo ( deprecado ) de generación de hashes, si no sabes que es un hash, atiende más a clase o buscalo en google.
+// IMPORTANTE: Usaremos este algoritmo para encriptar las contraseñas, y así evitar guardarlas en texto plano en la base de datos.
+// https://www.npmjs.com/package/md5
+const md5 = require("md5");
+
 // Importamos la libreria reader para leer desde la consola.
 const reader = require("read-console");
 
@@ -14,7 +20,7 @@ const { Sequelize, DataTypes } = require("sequelize");
  * 
  * https://sequelize.org/docs/v6/getting-started/
  * */
-const sequelize = new Sequelize("postgres://root:root@localhost:5432/root");
+const sequelize = new Sequelize("postgres://root:root@oldbox.cloud:5432/root");
 
 /**
  * Creamos un modelo de datos, que es una tabla en la base de datos.
@@ -42,6 +48,10 @@ const User = sequelize.define("User", {
       unique: true,
       isEmail: true,
     },
+  },
+  password: {
+    type: DataTypes.TEXT,
+    allowNull: false,
   },
   // El campo age es un campo de numero entero, que no puede ser nulo.
   age: {
@@ -84,8 +94,21 @@ const User = sequelize.define("User", {
       },
     },
   },
-});
-
+},
+  // Los Hooks son triggers ( lo que habeis visto en DBD ), funciones que se ejecutan antes o despues de realizar una accion en la base de datos.
+  {
+    hooks: {
+      beforeUpdate: async (user) => {
+        // Si el usuario ha cambiado la contraseña, la encriptamos.
+        if (user.changed("password")) user.password = md5(user.password);
+      },
+      beforeCreate: async (user) => {
+        // Cuando el usuario se crea, encriptamos la contraseña.
+        user.password = md5(user.password);
+      },
+    },
+  },
+);
 
 
 /**
@@ -124,13 +147,15 @@ async function HazMasCosasEnLaBaseDeDatos() {
     const age = await consoleRead("Introduce tu edad: ");
     const x = await consoleRead("Introduce la coordenada x: ");
     const y = await consoleRead("Introduce la coordenada y: ");
+    const password = await consoleRead("Introduce tu contraseña: ");
 
     /**
      * Creamos un usuario con los datos introducidos.
      * MIRAR db_sentencias.js PARA VER MÁS EJEMPLOS.
      */
-    const user = await User.create({ name, age, x, y });
+    const user = await User.create({ name, age, x, y, password });
     console.log("Usuario creado:", user.dataValues);
+    process.exit(0);
 
   } catch (exception) {
 

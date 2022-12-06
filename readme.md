@@ -56,12 +56,16 @@ En este repositorio se pueden encontrar ejemplos de como realizar:
   - [ejemplo_sockets](ejemplo_sockets).
 - Conexiones con Kafka: 
   - [ejemplo_kafka](ejemplo_kafka).
-- Conexiones con una base de datos ( cualquiera. En este caso se usa PostgreSQL ): 
+- Conexiones con una base de datos ( Cualquiera de tipo relacional. En este caso se usa PostgreSQL ): 
   - [ejemplo_db](ejemplo_db).
 - Servicios REST ( cliente y servidor ):
   - [ejemplo_apirest](ejemplo_apirest).
 - Lectura por teclado, y impresión por pantalla:
   - [ejemplo_mapa](ejemplo_mapa).
+- Ejemplo de un front sencillo hecho con Svelte:
+  - [ejemplo_front](ejemplo_front).
+- Ejemplos varios, que incluyen algunis de los anteriores:
+  - [ejemplo_varios](ejemplo_varios).
 
 Y de como desplegar con docker:
 

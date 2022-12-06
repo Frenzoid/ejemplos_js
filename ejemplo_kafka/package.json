@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aes256": "^1.1.0",
     "kafka-node": "^5.0.0",
     "read-console": "^1.0.3"
   }

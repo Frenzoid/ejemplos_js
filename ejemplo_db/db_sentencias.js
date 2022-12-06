@@ -1,8 +1,11 @@
 /**
  * Author: @Frenzoid
  */
-// Importamos la libreria reader para leer desde la consola.
-const reader = require("read-console");
+
+// Importamos md5, un algoritmo ( deprecado ) de generación de hashes, si no sabes que es un hash, atiende más a clase o buscalo en google.
+// IMPORTANTE: Usaremos este algoritmo para encriptar las contraseñas, y así evitar guardarlas en texto plano en la base de datos.
+// https://www.npmjs.com/package/md5
+const md5 = require("md5");
 
 // De la libreria Sequelize, nos traemos el objeto Sequelize y DataTypes.
 const { Sequelize, DataTypes } = require("sequelize");
@@ -14,7 +17,7 @@ const { Sequelize, DataTypes } = require("sequelize");
  * 
  * https://sequelize.org/docs/v6/getting-started/
  * */
-const sequelize = new Sequelize("postgres://root:root@localhost:5432/root");
+const sequelize = new Sequelize("postgres://root:root@oldbox.cloud:5432/root");
 
 /**
  * Creamos un modelo de datos, que es una tabla en la base de datos.
@@ -34,6 +37,10 @@ const User = sequelize.define("User", {
   },
   age: {
     type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  password: {
+    type: DataTypes.TEXT,
     allowNull: false,
   },
 });
@@ -70,7 +77,7 @@ async function HazMasCosasEnLaBaseDeDatos() {
      * 
      * https://sequelize.org/docs/v6/core-concepts/model-instances/#a-very-useful-shortcut-the-create-method
      * */
-    const user = await User.create({ name: "Frenzoid", age: 26 });
+    const user = await User.create({ name: "Frenzoid", age: 26, password: md5("123") });
     console.log("Usuario creado:", user.dataValues);
 
     /**
@@ -102,7 +109,7 @@ async function HazMasCosasEnLaBaseDeDatos() {
      * 
      * https://sequelize.org/docs/v6/core-concepts/model-querying-basics/#simple-update-queries
      * */
-    const updatedUser = await user.update({ name: "Ghostman", age: 27 });
+    const updatedUser = await user.update({ name: "Ghostman", age: 27, password: md5("123456") });
     console.log("Usuario actualizado:", updatedUser.dataValues);
 
     /**

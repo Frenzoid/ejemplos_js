@@ -21,6 +21,16 @@ En la segunda se ejecuta el cliente:
   
     node client.js
 
+O si quieres arrancar un servidor usando certificados ssl ( comunicación encriptada ):
+
+    node server_https.js
+
+La carpeta `certificados` contiene los certificados ssl para usar http(s).
+
+Estos certificados son auto firmados y por ello no están validados por una entidad certificadora, pero sirven para encriptar la comunicación entre el cliente y el servidor. Para generar los certificados ejecuta el siguiente comando, y sigue las instrucciones:
+    
+    openssl req -x509 -newkey rsa:4096 -keyout certificados/key.pem -out certificados/cert.pem -days 365
+
 ## Explicación.
 
 El ejemplo muestra como se puede crear un servidor y un cliente que se comuniquen mediante sockets. El servidor escucha en el puerto 3000 y el cliente se conecta a ese puerto. El servidor recibe un mensaje del cliente y lo envía de vuelta al cliente. El cliente muestra el mensaje recibido por pantalla.
