@@ -10,6 +10,20 @@
  */
 const axios = require("axios");
 
+/**
+ * Importamos https, libreria para configurar el protocolo https, en este caso con axios.
+ */
+const https = require("https");
+
+/**
+ * Creamos una instancia de axios, con la configuracion de https, para que ignore los errores del certificado ( ya que estan firmados por nosotros mismos ).
+ */
+const instance = axios.create({
+  httpsAgent: new https.Agent({
+    rejectUnauthorized: false
+  })
+});
+
 // Variable que usaremos para guardar el id del usuario que crearemos.
 let id;
 
@@ -21,7 +35,7 @@ const url = "http://localhost:3000/";
  * 
  * https://axios-http.com/docs/intro
  * */
-axios
+instance
   .get(url + "users")
   .then((response) => {
     // Si la solicitud es correcta, imprimimos la respuesta.
@@ -50,7 +64,7 @@ getUsers();
 async function creaObtenBorra() {
   // Creamos un usuario
   try {
-    const response = await axios.post(url + "users", {
+    const response = await instance.post(url + "users", {
       name: "Jacobs",
       edad: 25,
       id: 4,
@@ -61,11 +75,11 @@ async function creaObtenBorra() {
     console.log("Usuario creado!", response.data);
 
     // Obtenemos el usuario que creamos. V Otra forma de concatenar strings.
-    const response2 = await axios.get(`${url}users/${id}`);
+    const response2 = await instance.get(`${url}users/${id}`);
     console.log("Usuario con id", id, "obtenido!", response2.data);
 
     // Eliminamos el usuario que creamos.
-    const response3 = await axios.delete(url + "users/" + id);
+    const response3 = await instance.delete(url + "users/" + id);
     console.log("Usuario eliminado, esta es la list actualizada:", response3.data);
 
   } catch (error) {

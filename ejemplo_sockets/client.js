@@ -9,7 +9,8 @@ const reader = require("read-console");
 
 // Creamos una conexion con el servidor de sockets en el puerto 9000.
 // Si has generado los certificados, y usas el servidor https (server_https.js), cambia "http" por "https".
-const socket = io("http://localhost:9000");
+// En el primer parametro de io() pasamos la url del servidor, en el segundo parametro le pasamos la configuracion de https, para que ignore los errores del certificado ( ya que estan firmados por nosotros mismos ).
+const socket = io("http://localhost:9000", { rejectUnauthorized: false });
 
 // contandor de reintentos.
 let intentos = 0;

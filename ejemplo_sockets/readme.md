@@ -29,7 +29,7 @@ La carpeta `certificados` contiene los certificados ssl para usar http(s).
 
 Estos certificados son auto firmados y por ello no están validados por una entidad certificadora, pero sirven para encriptar la comunicación entre el cliente y el servidor. Para generar los certificados ejecuta el siguiente comando, y sigue las instrucciones:
     
-    openssl req -x509 -newkey rsa:4096 -keyout certificados/key.pem -out certificados/cert.pem -days 365
+    openssl req -x509 -newkey rsa:4096 -keyout certificados/key.pem -out certificados/cert.pem -days 365 -nodes
 
 ## Explicación.
 
